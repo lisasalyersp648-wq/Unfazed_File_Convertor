@@ -87,6 +87,15 @@ vercel --prod
 
 or import the repository in the Vercel dashboard.
 
+> **Important:** leave the project's **Root Directory** empty (the repository
+> root). Do not point it at `converter_bot/`. That directory has no `app.py` or
+> `requirements.txt`, and Vercel treats a Dockerfile found there as a container
+> build whose context is `converter_bot/`, so `COPY requirements.txt` fails with
+> `no such file or directory`. Also make sure the Framework Preset is **Other**
+> rather than **Dockerfile**. Finally, redeploy the deployment whose commit is
+> the current `main`; pressing **Redeploy** on an older deployment rebuilds that
+> old commit, including its old `converter_bot/Dockerfile`.
+
 `vercel.json` declares a single Vercel service, `app`, mounted at `/` through a
 catch-all rewrite. `converter_bot/` is a Python package imported by `app.py`,
 not a separate service, so it has no service entry and no public route of its
@@ -360,6 +369,7 @@ The Postgres DSN is normalised for asyncpg: `postgres://` is rewritten to
 | History disappears on Vercel | `DATABASE_URL` is not set, so SQLite lives in `/tmp`. |
 | Function timeout | Lower `CONVERSION_TIMEOUT` or convert a smaller file; max duration is 300 s. |
 | `DATABASE_URL is set but asyncpg is not installed` | Install `requirements.txt` (it includes asyncpg). |
+| Build fails at `COPY requirements.txt` with `no such file or directory` | The Vercel project's **Root Directory** is `converter_bot/` (or the deployment is an old commit that still has `converter_bot/Dockerfile`). Set Root Directory to the repository root, set Framework Preset to **Other**, and redeploy the current commit. |
 
 ## Security
 
