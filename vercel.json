@@ -1,25 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "services": {
-    "app": {
-      "root": ".",
-      "runtime": "python3.12",
-      "entrypoint": "app:app",
-      "functions": {
-        "app.py": {
-          "maxDuration": 300,
-          "memory": 1024,
-          "excludeFiles": "{bot_data/**,converter_bot/bot_data/**,**/*.db,**/*.db-shm,**/*.db-wal,**/__pycache__/**,**/*.pyc,.venv/**,venv/**,.git/**,.vercel/**,**/*.log,**/.env,**/.env.*,converter_bot/.env*,.env*,README.md,docker-compose.yml,converter_bot/Dockerfile.bot}"
-        }
-      }
+  "framework": "python",
+  "functions": {
+    "app.py": {
+      "maxDuration": 300,
+      "excludeFiles": "{bot_data/**,converter_bot/bot_data/**,**/*.db,**/*.db-shm,**/*.db-wal,**/__pycache__/**,**/*.pyc,.venv/**,venv/**,.git/**,.vercel/**,**/*.log,**/.env,**/.env.*,converter_bot/.env*,.env*,README.md,docker-compose.yml,converter_bot/Dockerfile.bot}"
     }
-  },
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": {
-        "service": "app"
-      }
-    }
-  ]
+  }
 }

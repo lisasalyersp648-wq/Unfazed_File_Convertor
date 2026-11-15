@@ -91,22 +91,24 @@ or import the repository in the Vercel dashboard.
 > root). Do not point it at `converter_bot/`. That directory has no `app.py` or
 > `requirements.txt`, and Vercel treats a Dockerfile found there as a container
 > build whose context is `converter_bot/`, so `COPY requirements.txt` fails with
-> `no such file or directory`. Also make sure the Framework Preset is **Other**
-> rather than **Dockerfile**. Finally, redeploy the deployment whose commit is
-> the current `main`; pressing **Redeploy** on an older deployment rebuilds that
-> old commit, including its old `converter_bot/Dockerfile`.
+> `no such file or directory`. Set the Framework Preset to **Python** (or
+> **Other**) rather than **Dockerfile** as well. Finally, redeploy the
+> deployment whose commit is the current `main`; pressing **Redeploy** on an
+> older deployment rebuilds that old commit, including its old
+> `converter_bot/Dockerfile`.
 
-`vercel.json` declares a single Vercel service, `app`, mounted at `/` through a
-catch-all rewrite. `converter_bot/` is a Python package imported by `app.py`,
-not a separate service, so it has no service entry and no public route of its
-own. The bot makes no service-to-service calls, so there are no bindings.
+`vercel.json` pins the framework to `python`, overriding any stale dashboard
+preset. Vercel loads `app.py` as the ASGI app (`app:app`) and routes every
+request to it. `converter_bot/` is a flat module tree imported by `app.py`; it
+is not a separate service, so it has no entrypoint or public route of its own.
+There are no services and no service-to-service bindings.
 
 Vercel reads:
 
 - `app.py` — ASGI entrypoint (`app:app`) exporting `app`
 - `requirements.txt` — pure-Python dependencies
 - `.python-version` — Python 3.12
-- `vercel.json` — the `app` service, 300 s max duration, 1 GB memory, bundle
+- `vercel.json` — framework pinned to `python`, 300 s max duration, bundle
   exclusions
 - `.vercelignore` — keeps `.env`, `bot_data/`, and SQLite files out
 
