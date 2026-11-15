@@ -1,0 +1,35 @@
+services:
+  telegram-bot-api:
+    image: ragnarok22/telegram-bot-api-docker:latest
+    container_name: telegram-bot-api
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      TELEGRAM_API_ID: "${TELEGRAM_API_ID:?Set TELEGRAM_API_ID in .env or shell}"
+      TELEGRAM_API_HASH: "${TELEGRAM_API_HASH:?Set TELEGRAM_API_HASH in .env or shell}"
+      TELEGRAM_LOCAL: "true"
+    volumes:
+      - ./bot_data:/data
+
+  bot:
+    build:
+      context: .
+      dockerfile: converter_bot/Dockerfile
+    container_name: file-converter-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Talk to the local Bot API container, not localhost.
+      LOCAL_API_URL: http://telegram-bot-api:8081
+      LOCAL_API_MODE: "true"
+      TEMP_DIR: /tmp
+      DB_PATH: /data/converter_bot.db
+    depends_on:
+      - telegram-bot-api
+    volumes:
+      - bot_state:/data
+
+volumes:
+  bot_state:

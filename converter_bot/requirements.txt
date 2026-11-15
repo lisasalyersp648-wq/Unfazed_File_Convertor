@@ -1,0 +1,7 @@
+# Canonical dependency list (kept in the repository root for Vercel).
+# Local installs and the Docker image use the same set.
+-r ../requirements.txt
+
+# Optional: libmagic-based MIME detection (requires the native libmagic
+# library; it is not available on Vercel and is not required there).
+# python-magic==0.4.27

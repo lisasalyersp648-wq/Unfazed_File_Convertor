@@ -1,0 +1,29 @@
+# Secrets and local state must never be uploaded to Vercel.
+.env
+.env.*
+!.env.example
+converter_bot/.env
+converter_bot/.env.*
+!converter_bot/.env.example
+
+# Local Bot API server data and SQLite databases
+bot_data/
+converter_bot/bot_data/
+**/*.db
+**/*.db-shm
+**/*.db-wal
+**/*.db-journal
+
+# Python artifacts
+**/__pycache__/
+**/*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Tooling
+.git/
+.vercel/
+*.log
