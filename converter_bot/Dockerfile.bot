@@ -14,8 +14,9 @@ RUN apt-get update \
 
 WORKDIR /app
 
-# Build from the repository root:
-#   docker build -f converter_bot/Dockerfile -t file-converter-bot .
+# Build from the repository root (note the non-standard filename so Vercel
+# does not mis-detect this as a container app):
+#   docker build -f converter_bot/Dockerfile.bot -t file-converter-bot .
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt \
     && rm -f /tmp/requirements.txt

@@ -15,7 +15,7 @@ services:
   bot:
     build:
       context: .
-      dockerfile: converter_bot/Dockerfile
+      dockerfile: converter_bot/Dockerfile.bot
     container_name: file-converter-bot
     restart: unless-stopped
     env_file:

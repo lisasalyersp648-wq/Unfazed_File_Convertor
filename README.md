@@ -286,7 +286,7 @@ docker compose up --build
 Build the image manually from the repository root:
 
 ```bash
-docker build -f converter_bot/Dockerfile -t file-converter-bot .
+docker build -f converter_bot/Dockerfile.bot -t file-converter-bot .
 docker run --rm --env-file .env -v bot_state:/data file-converter-bot
 ```
 
