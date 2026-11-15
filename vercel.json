@@ -3,6 +3,7 @@
   "services": {
     "app": {
       "root": ".",
+      "runtime": "python3.12",
       "entrypoint": "app:app",
       "functions": {
         "app.py": {
