@@ -87,17 +87,18 @@ vercel --prod
 
 or import the repository in the Vercel dashboard.
 
-If Vercel reports **multiple applications detected**, choose **Import single
-project** for the root `app` (`/`). `converter_bot/` is a Python package that
-`app.py` imports, not a separate service, so it must not be imported or grouped
-as one.
+`vercel.json` declares a single Vercel service, `app`, mounted at `/` through a
+catch-all rewrite. `converter_bot/` is a Python package imported by `app.py`,
+not a separate service, so it has no service entry and no public route of its
+own. The bot makes no service-to-service calls, so there are no bindings.
 
 Vercel reads:
 
-- `app.py` — ASGI entrypoint exporting `app`
+- `app.py` — ASGI entrypoint (`app:app`) exporting `app`
 - `requirements.txt` — pure-Python dependencies
 - `.python-version` — Python 3.12
-- `vercel.json` — 300 s max duration, 1 GB memory, bundle exclusions
+- `vercel.json` — the `app` service, 300 s max duration, 1 GB memory, bundle
+  exclusions
 - `.vercelignore` — keeps `.env`, `bot_data/`, and SQLite files out
 
 ### 3. Set environment variables
