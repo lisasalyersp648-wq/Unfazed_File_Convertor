@@ -77,20 +77,20 @@ production.**
 
 ### 2. Import the project
 
-> **Important:** this folder currently lives inside a larger Git repository
-> (your home directory). Create a dedicated repository for this folder, or set
-> the Vercel project's **Root Directory** to this folder, so Vercel does not
-> upload the rest of your home directory. The bundled `.gitignore` and
-> `.vercelignore` only protect files below this folder.
-
-If this folder is not its own Git repository, either initialise one here or set
-the Vercel project's **Root Directory** to this folder. Then:
+This folder is a standalone Git repository, so Vercel uploads only the bot's
+own files. The bundled `.gitignore` and `.vercelignore` keep secrets, local Bot
+API state, and SQLite databases out of the upload. Then:
 
 ```bash
 vercel --prod
 ```
 
 or import the repository in the Vercel dashboard.
+
+If Vercel reports **multiple applications detected**, choose **Import single
+project** for the root `app` (`/`). `converter_bot/` is a Python package that
+`app.py` imports, not a separate service, so it must not be imported or grouped
+as one.
 
 Vercel reads:
 
